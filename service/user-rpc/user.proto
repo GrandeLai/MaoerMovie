@@ -1,0 +1,113 @@
+syntax = "proto3";
+
+package user;
+
+option go_package="./user";
+
+message UserPreview {
+  string id = 1;
+  string avatarUrl = 2;
+  string name = 3;
+}
+
+message LoginRequest {
+  string email = 1;
+  string password = 2;
+}
+
+message LoginResponse {
+  string userId = 1;
+  string accessToken=2;
+  string accessExpire=3;
+  string refreshAfter=4;
+}
+
+message RegisterRequest{
+  string name=1;
+  string gender=2;
+  string phone=3;
+  string email=4;
+  string password=5;
+  string emailCode=6;
+}
+
+message RegisterResponse{
+  string id=1;
+}
+
+message SendEmailCodeRequest{
+  string email=1;
+}
+
+message SendEmailCodeResponse {
+
+}
+
+message RefreshAuthRequest{
+    string Authorization=1;
+    string id=2;
+}
+
+message RefreshAuthResponse{
+  string accessToken=1;
+  string accessExpire=2;
+  string refreshAfter=3;
+}
+
+message UpdatePasswordRequest{
+  string id=1;
+  string password=2;
+  string newPassword=3;
+}
+
+message UpdatePasswordResponse{
+
+}
+
+message GetUserInfoRequest{
+  string id=1;
+}
+
+message GetUserInfoResponse{
+  string id=1;
+  string name=2;
+  string gender=3;
+  string phone=4;
+  string email=5;
+  string avatarUrl=6;
+}
+
+message UpdateUserInfoRequest{
+  string id=1;
+  string name=2;
+  string gender=3;
+  string phone=4;
+  string avatarName=5;
+  bytes avatar=6;
+}
+
+message UpdateUserInfoResponse{
+
+}
+
+message SearchUserRequest{
+  string keyword=1;
+  string page=2;
+  string size=3;
+}
+
+message SearchUserResponse{
+  repeated UserPreview users=1;
+  string total=2;
+}
+
+service userRpc {
+  rpc Login(LoginRequest) returns(LoginResponse);
+  rpc Register(RegisterRequest) returns(RegisterResponse);
+  rpc SendEmailCode(SendEmailCodeRequest) returns(SearchUserResponse);
+  rpc RefreshAuth(RefreshAuthRequest) returns(RefreshAuthResponse);
+  rpc UpdatePassword(UpdatePasswordRequest) returns(UpdatePasswordResponse);
+  rpc UpdateUserInfo(UpdateUserInfoRequest) returns(UpdateUserInfoResponse);
+  rpc GetUserInfo(GetUserInfoRequest) returns(GetUserInfoResponse);
+  rpc SearchUser(SearchUserRequest) returns(SearchUserResponse);
+}

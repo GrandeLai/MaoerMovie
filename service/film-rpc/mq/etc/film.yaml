@@ -1,0 +1,51 @@
+Name: film.mq
+Host: 0.0.0.0
+Port: 7003
+Mysql:
+  DataSource: root:123456@tcp(localhost:3306)/maoer_movie?charset=utf8mb4&parseTime=true&loc=Asia%2FShanghai
+  TimeOut: 100000
+RedisClient:
+  Host: 8.134.142.44:6379
+  Type: node
+  Pass: qwe123
+CacheRedis:
+  - Host: 8.134.142.44:6379
+    Pass: qwe123
+UserRPC:
+  Etcd:
+    Hosts:
+      - 127.0.0.1:2379
+    Key: user.rpc
+  TimeOut: 100000
+Elasticsearch:
+  Addresses:
+    - http://8.134.142.44:9200
+  Username:
+  Password:
+KqFilmInsert:
+  Name: UserInsert
+  Brokers:
+    - 8.134.142.44:9092
+  Group: Film-Insert-group
+  Topic: Film-Insert-topic
+  Offset: first
+  Consumers: 1
+  Processors: 1
+KqFilmUpdate:
+  Name: FilmUpdate
+  Brokers:
+    - 8.134.142.44:9092
+  Group: Film-Update-group
+  Topic: Film-Update-topic
+  Offset: first
+  Consumers: 1
+  Processors: 1
+KqActorInsert:
+  Name: ActorInsert
+  Brokers:
+    - 8.134.142.44:9092
+  Group: Actor-Insert-group
+  Topic: Actor-Insert-topic
+  Offset: first
+  Consumers: 1
+  Processors: 1

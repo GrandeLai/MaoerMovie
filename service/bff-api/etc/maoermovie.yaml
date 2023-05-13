@@ -1,0 +1,21 @@
+Name: maoermovie
+Host: 0.0.0.0
+Port: 8888
+TimeOut: 100000
+Mode: dev
+Auth:
+  AccessSecret: b2cfcd59-86d4-413f-8e62-c15c7be7badf
+  AccessExpire: 33333
+UserRPC:
+  Etcd:
+    Hosts:
+      - 127.0.0.1:2379
+    Key: user.rpc
+  TimeOut: 100000
+Salt: b2cfcd59-86d4-413f-8e62-c15c7be7badf
+FilmRPC:
+  Etcd:
+    Hosts:
+      - 127.0.0.1:2379
+    Key: film.rpc
+  TimeOut: 100000

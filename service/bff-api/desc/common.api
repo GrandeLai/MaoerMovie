@@ -1,0 +1,27 @@
+syntax = "v1"
+
+info(
+    title: "common api"
+    author: "JDaw"
+)
+
+type Status {
+    Code int `json:"code"`
+    Msg string `json:"msg"`
+}
+
+type PageLimit {
+    Page string `json:"page,optional"` //查询的第几页
+    Size string `json:"size,optional"` //每页页数
+}
+
+type UserPreview {
+    Id string `json:"id"`
+    Name string `json:"nick_name"`
+    AvatarUrl string `json:"avatar_url"`
+}
+
+type Role {
+    RoleType string `json:"role_type"`
+    CommunityId string `json:"community_id,omitempty"`
+}

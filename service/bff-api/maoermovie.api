@@ -1,0 +1,151 @@
+syntax = "v1"
+
+info(
+	title: "type title here"
+	author: "GrandeLai"
+	email: "jdawlai@outlook.com"
+)
+
+import(
+	"desc/auth.api"
+	"desc/user.api"
+	"desc/film.api"
+	"desc/admin.api"
+)
+
+@server(
+	group: auth
+	prefix: auth
+)
+
+service maoermovie {
+	// auth
+	@doc(
+		summary: "用户登录"
+	)
+	@handler LogIn
+	post /login (LoginRequest) returns (LoginResponse)
+	
+	@doc(
+		summary: "用户注册"
+	)
+	@handler Register
+	post /register(RegisterRequest) returns (RegisterResponse)
+	
+	@doc(
+		summary: "邮箱验证码发送"
+	)
+	@handler SendEmailCode
+	post /send_email_code (SendEmailCodeRequest) returns (SendEmailCodeResponse)
+}
+
+@server(
+	group: auth
+	prefix: auth
+	jwt: Auth
+)
+
+service maoermovie {
+	// auth
+	@doc(
+		summary: "用户密码重置"
+	)
+	@handler UpdatePassword
+	post /update_password (UpdatePasswordRequest) returns (UpdatePasswordResponse)
+	
+	@doc(
+		summary: "刷新Authorization"
+	)
+	@handler RefreshAuth
+	post /refresh/auth returns (RefreshAuthResponse)
+}
+
+@server(
+	group: user
+	prefix: user
+	jwt: Auth
+)
+
+service maoermovie {
+	// user
+	@doc(
+		summary: "用户详情"
+	)
+	@handler GetUserInfo
+	get /get_user_info returns (GetUserInfoResponse)
+	
+	@doc(
+		summary: "用户信息修改"
+	)
+	@handler UpdateUserInfo
+	post /update_user_info (UpdateUserInfoRequest) returns (UpdateUserInfoResponse)
+	
+	@doc(
+		summary: "搜索用户"
+	)
+	@handler SearchUser
+	get /search_user (SearchUserRequest) returns (SearchUserResponse)
+}
+
+@server (
+	group: film
+	prefix: film
+)
+
+service maoermovie {
+	// film
+	@doc(
+		summary: "获取电影概览"
+	)
+	@handler GetFilm
+	get /get_film(FilmRequest) returns (GetFilmResponse)
+	
+	@doc(
+		summary: "获取电影详情"
+	)
+	@handler FilmDetail
+	get /get_detail(FilmRequest) returns (FilmDetailResponse)
+	
+	@doc(
+		summary: "用户端影片搜索"
+	)
+	@handler FilmSearch
+	get /film_search(FilmSearchRequest) returns (FilmSearchResponse)
+}
+
+@server (
+	group: admin
+	prefix: admin
+	jwt: Auth
+)
+service maoermovie {
+	@doc(
+		summary: "管理员端影片列表"
+	)
+	@handler AdminFilmList
+	get /film_list(FilmListRequest) returns (AdminFilmListResponse)
+	
+	@doc(
+		summary: "电影创建或修改"
+	)
+	@handler FilmNew
+	post /film_new(FilmNewRequest) returns (FilmCreateResponse)
+	
+	@doc(
+		summary: "电影详情信息添加"
+	)
+	@handler FilmDetailAdd
+	post /film_detail_add(FilmDetailAddRequest) returns(CommonResponse)
+	
+	@doc(
+		summary:"演员列表信息获取"
+	)
+	@handler GetActorList
+	get /actor_list(FilmListRequest) returns(GetActorListResponse)
+	
+	@doc(
+		summary: "电影删除"
+	)
+	@handler FilmRemove
+	post /film_remove(FilmDeleteRequest) returns (CommonResponse)
+}

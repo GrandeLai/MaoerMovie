@@ -1,0 +1,42 @@
+Name: user.mq
+Host: 0.0.0.0
+Port: 7002
+Mysql:
+  DataSource: root:123456@tcp(localhost:3306)/maoer_movie?charset=utf8mb4&parseTime=true&loc=Asia%2FShanghai
+  TimeOut: 100000
+RedisClient:
+  Host: 8.134.142.44:6379
+  Type: node
+  Pass: qwe123
+CacheRedis:
+  - Host: 8.134.142.44:6379
+    Pass: qwe123
+UserRPC:
+  Etcd:
+    Hosts:
+      - 127.0.0.1:2379
+    Key: user.rpc
+  TimeOut: 100000
+Elasticsearch:
+  Addresses:
+    - http://8.134.142.44:9200
+  Username:
+  Password:
+KqUserInsert:
+  Name: UserInsert
+  Brokers:
+    - 8.134.142.44:9092
+  Group: User-Insert-group
+  Topic: User-Insert-topic
+  Offset: first
+  Consumers: 1
+  Processors: 1
+KqUserUpdate:
+  Name: UserUpdate
+  Brokers:
+    - 8.134.142.44:9092
+  Group: User-Update-group
+  Topic: User-Update-topic
+  Offset: first
+  Consumers: 1
+  Processors: 1

@@ -1,0 +1,173 @@
+syntax = "proto3";
+
+package film;
+
+option go_package='./pb';
+
+message CommonRequest{
+
+}
+
+message FilmRequest{
+  string id=1;
+}
+
+message FilmResponse{
+
+}
+
+message Film{
+  string filmName=1;
+  string filmEnglishName=2;
+  string filmType=3;
+  string filmCover=4;
+  string filmLength=5;
+  string filmCategory=6;
+  string filmArea=7;
+  string filmTime=8;
+  string director=9;
+  string biography=10;
+}
+
+message FilmPreview{
+  string filmName=1;
+  string filmTime=2;
+  string filmCategory=3;
+  string filmScore=4;
+  string filmCoverUrl=5;
+  string actorNameList=6;
+  string filmArea=7;
+}
+
+message FilmDetail{
+  string filmScore=1;
+  string filmScoreNum=2;
+  string filmPreSaleNum=3;
+  string filmBoxOffice=4;
+  string filmImgs=5;
+  string actorList=6;
+}
+
+message GetFilmResponse{
+  Film film=1;
+}
+
+message GetFilmDetailResponse{
+  FilmDetail filmDetail=2;
+}
+
+message FilmCreateRequest{
+  string filmName=1;
+  string filmEnglishName=2;
+  string filmType=3;
+  bytes filmCover=4;
+  string coverName=5;
+  string filmLength=6;
+  string categoryId=7;
+  string filmArea=8;
+  string filmTime=9;
+  string directorId=10;
+  string biography=11;
+  string actorList=12;
+  string roleList=13;
+}
+
+message FilmCreateResponse{
+  string id=1;
+}
+
+message FilmUpdateRequest{
+  string filmName=1;
+  string filmEnglishName=2;
+  string filmType=3;
+  string filmCoverName=4;
+  bytes filmCover=5;
+  string filmLength=6;
+  string filmCategory=7;
+  string filmArea=8;
+  string filmTime=9;
+  string director=10;
+  string biography=11;
+  string actorList=12;
+  string filmId=13;
+  string filmPreSaleNum=14;
+}
+
+message FilmInfoUpdateRequest{
+  string filmId=1;
+  string filmPreSaleSum=2;
+  repeated bytes filmImgs=3;
+  repeated string filmNameList=4;
+}
+
+message ListRequest{
+  string page=1;
+  string size=2;
+}
+
+message UserFilmSearchRequest{
+  ListRequest listRequest=1;
+  string category=2;
+  string area=3;
+  string time=4;
+  string sortType=5;
+}
+
+message AdminFilmListResponse{
+  repeated Film list=1;
+  string count=2;
+}
+
+message UserFilmSearchResponse {
+  repeated FilmDetail detailList=1;
+  string count=2;
+}
+
+message ActorListResponse{
+  repeated Actor list=1;
+  string count=2;
+}
+
+message Actor{
+  string actorId=1;
+  string actorName=2;
+  string actorAvatar=3;
+}
+
+message SearchFilmRequest{
+  string keyword=1;
+  string page=2;
+  string size=3;
+  string category=4;
+  string area=5;
+  string sortedType=6;
+  string timeStart=7;
+  string timeEnd=8;
+}
+
+message SearchFilmResponse{
+  repeated FilmPreview films=1;
+  int64 total=2;
+}
+
+message GetCategoryListResponse{
+  repeated Category category=1;
+}
+
+message Category {
+  string categoryId=1;
+  string categoryName=2;
+}
+
+service filmRpc {
+  rpc GetFilm(FilmRequest) returns(GetFilmResponse);
+  rpc GetFilmDetail(FilmRequest) returns(GetFilmDetailResponse);
+  rpc CreateFilm(FilmCreateRequest) returns(FilmCreateResponse);
+  rpc UpdateFilm(FilmUpdateRequest) returns(FilmResponse);
+  rpc DeleteFilm(FilmRequest) returns(FilmResponse);
+  rpc AdminFilmList(ListRequest) returns(AdminFilmListResponse);
+  rpc UpdateFilmInfo(FilmInfoUpdateRequest) returns(FilmResponse);
+  rpc GetActorList(ListRequest) returns(ActorListResponse);
+  rpc SearchFilm(SearchFilmRequest) returns(SearchFilmResponse);
+  rpc GetAllCategory(CommonRequest) returns(GetCategoryListResponse);
+}

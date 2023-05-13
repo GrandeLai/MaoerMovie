@@ -1,0 +1,79 @@
+syntax = "v1"
+
+info(
+	title: "film api"
+	author: "JDaw"
+)
+
+import "desc/common.api"
+
+type (
+	FilmRequest {
+		Id string `json:"id"`
+	}
+
+	GetFilmResponse {
+		Status
+		FilmName        string `json:"film_name"`
+		FilmEnglishName string `json:"film_english_name"`
+		FilmType        string    `json:"film_type"`
+		FilmCover       string `json:"film_cover"`
+		FilmLength      string    `json:"film_length"`
+		FilmCategory    string `json:"film_category"`
+		FilmArea        string `json:"film_area"`
+		FilmTime        string `json:"film_time"`
+		Director        string `json:"director"`
+		Biography      string   `json:"biography"`
+	}
+
+	FilmDetailResponse {
+		Status
+		FilmScore      float64  `json:"film_score"`
+		FilmScoreNum   string    `json:"film_score_num"`
+		FilmPreSaleNum string    `json:"film_pre_sale_num"`
+		FilmBoxOffice  string      `json:"film_box_office"`
+		FilmImgs       string   `json:"film_imgs"`
+		ActorList      string `json:"actor_list"`
+	}
+
+	FilmResponse {
+		Status
+	}
+
+	FilmSearchRequest{
+		PageLimit
+		Category string `json:"category"`
+		Area string `json:"area"`
+		TimeStart string `json:"time_start"`
+		TimeEnd string `json:"time_end"`
+		Keyword string `json:"keyword"`
+		SortedType string `json:"sorted_type"` //0是热门，1是时间，2是评价
+	}
+
+	FilmSearchResponse {
+		Status
+		InfoList []*FilmInfo `json:"info_list"`
+		Count    string       `json:"count"`
+	}
+
+	Film {
+		FilmName        string `json:"film_name"`
+		FilmEnglishName string `json:"film_english_name"`
+		FilmType        string    `json:"film_type"`
+		FilmCover       string `json:"film_cover"`
+		FilmLength      string    `json:"film_length"`
+		FilmCategory    string `json:"film_category"`
+		FilmArea        string `json:"film_area"`
+		FilmTime        string `json:"film_time"`
+		Director        string `json:"director"`
+	}
+
+	FilmInfo {
+		FilmName     string   `json:"film_name"`
+		FilmTime     string   `json:"film_time"`
+		FilmCategory string   `json:"film_category"`
+		FilmScore    string  `json:"film_score"`
+		FilmCover    string   `json:"film_cover"`
+		ActorNameList    string `json:"actor_name_list"`
+	}
+)

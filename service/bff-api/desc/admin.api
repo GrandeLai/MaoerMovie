@@ -1,0 +1,80 @@
+syntax = "v1"
+
+info(
+	title: "admin api"
+	author: "JDaw"
+)
+
+import (
+	"desc/common.api"
+)
+
+type (
+	FilmDeleteRequest {
+		Id string `json:"id"`
+	}
+
+	FilmNewRequest {
+		FilmId string `form:"film_id,optional"`
+		FilmName        string   `form:"film_name"`
+		FilmEnglishName string   `form:"film_english_name"`
+		FilmType        string      `form:"film_type"`
+		FilmLength      string      `form:"film_length"`
+		FilmCategory    string   `form:"film_category"`
+		FilmArea        string   `form:"film_area"`
+		FilmTime        string   `form:"film_time"`
+		Director        string   `form:"director"`
+		Biography       string   `form:"biography"`
+		ActorList       string `form:"actor_list"`
+		RoleList string `form:"role_list"`
+	}
+
+	FilmDetailAddRequest{
+		FilmId string  `form:"film_id""`
+		FilmPreSaleNum string    `form:"film_pre_sale_num"`
+	}
+
+	GetActorListResponse{
+		Status
+		ActorList []Actor `json:"actor_preview_list"`
+		Count string `json:"count"`
+	}
+
+	FilmCreateResponse {
+		Status
+		Id string `json:"id"`
+	}
+
+	CommonResponse {
+		Status
+	}
+
+	FilmListRequest {
+		Page string `json:"page,optional"` //查询的第几页
+		Size string `json:"size,optional"` //每页页数
+	}
+
+	AdminFilmListResponse {
+		List  []*AdminFilm `json:"list"`
+		Count string   `json:"count"`
+		Status
+	}
+
+	AdminFilm {
+		FilmName        string `json:"film_name"`
+		FilmEnglishName string `json:"film_english_name"`
+		FilmType        string    `json:"film_type"`
+		FilmCover       string `json:"film_cover"`
+		FilmLength      string    `json:"film_length"`
+		FilmCategory    string `json:"film_category"`
+		FilmArea        string `json:"film_area"`
+		FilmTime        string `json:"film_time"`
+		Director        string `json:"director"`
+	}
+
+	Actor{
+		ActorId string `json:"actor_id"`
+		ActorName string `json:"actor_name""`
+		ActorAvatar string `json:"actor_avatar"`
+	}
+)

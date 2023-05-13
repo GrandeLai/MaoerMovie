@@ -3,6 +3,7 @@ package utils
 import (
 	"fmt"
 	"math/rand"
+	"strconv"
 	"time"
 
 	"github.com/zeromicro/go-zero/core/stores/redis"
@@ -25,14 +26,63 @@ func GenerateUUID() string {
 	return uuid.NewV4().String()
 }
 
-func GenerateJwtToken(secreKey string, iat, seconds, userId int64) (string, error) {
+func StringToInt64(str string) int64 {
+	num, err := strconv.ParseInt(str, 10, 64)
+	if err != nil {
+		panic(err)
+	}
+	return num
+}
+
+func Int64ToString(num int64) string {
+	return string([]rune(strconv.FormatInt(num, 10)))
+}
+
+func IntToString(num int) string {
+	return strconv.Itoa(num)
+}
+
+func Float64ToString(num float64) string {
+	return strconv.FormatFloat(num, 'f', -1, 64)
+}
+
+func StringToFloat64(str string) float64 {
+	num, err := strconv.ParseFloat(str, 64)
+	if err != nil {
+		return 0
+	}
+	return num
+}
+
+func StringToTime(str string) time.Time {
+	timeT, _ := time.ParseInLocation("2006-01-02", str, time.Local)
+	return timeT
+}
+
+func StringToTimeAtLocal(str string) time.Time {
+	timeLayout := "2006-01-02T00:00:00+08:00"
+	theTime, _ := time.ParseInLocation(timeLayout, str, time.Local)
+	return theTime
+}
+
+func TimeToString(time time.Time) string {
+	return time.Format("2006-01-02")
+}
+
+func GenerateJwtToken(secret string, expire int64, userId int64) (string, int64, error) {
+	iat := time.Now().Unix()
+	exp := iat + expire
 	claims := make(jwt.MapClaims)
-	claims["exp"] = iat + seconds
+	claims["exp"] = exp
 	claims["iat"] = iat
 	claims["userId"] = userId
 	token := jwt.New(jwt.SigningMethodHS256)
 	token.Claims = claims
-	return token.SignedString([]byte(secreKey))
+	tokenString, err := token.SignedString([]byte(secret))
+	if err != nil {
+		return "", 0, err
+	}
+	return tokenString, exp, nil
 }
 
 func PasswordEncrypt(salt, password string) string {
