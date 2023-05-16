@@ -32,6 +32,7 @@ type FilmRpcClient interface {
 	GetActorList(ctx context.Context, in *ListRequest, opts ...grpc.CallOption) (*ActorListResponse, error)
 	SearchFilm(ctx context.Context, in *SearchFilmRequest, opts ...grpc.CallOption) (*SearchFilmResponse, error)
 	GetAllCategory(ctx context.Context, in *CommonRequest, opts ...grpc.CallOption) (*GetCategoryListResponse, error)
+	GetCinemaFilm(ctx context.Context, in *CinemaFilmRequest, opts ...grpc.CallOption) (*CinemaFilmResponse, error)
 }
 
 type filmRpcClient struct {
@@ -132,6 +133,15 @@ func (c *filmRpcClient) GetAllCategory(ctx context.Context, in *CommonRequest, o
 	return out, nil
 }
 
+func (c *filmRpcClient) GetCinemaFilm(ctx context.Context, in *CinemaFilmRequest, opts ...grpc.CallOption) (*CinemaFilmResponse, error) {
+	out := new(CinemaFilmResponse)
+	err := c.cc.Invoke(ctx, "/film.filmRpc/GetCinemaFilm", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // FilmRpcServer is the server API for FilmRpc service.
 // All implementations must embed UnimplementedFilmRpcServer
 // for forward compatibility
@@ -146,6 +156,7 @@ type FilmRpcServer interface {
 	GetActorList(context.Context, *ListRequest) (*ActorListResponse, error)
 	SearchFilm(context.Context, *SearchFilmRequest) (*SearchFilmResponse, error)
 	GetAllCategory(context.Context, *CommonRequest) (*GetCategoryListResponse, error)
+	GetCinemaFilm(context.Context, *CinemaFilmRequest) (*CinemaFilmResponse, error)
 	mustEmbedUnimplementedFilmRpcServer()
 }
 
@@ -182,6 +193,9 @@ func (UnimplementedFilmRpcServer) SearchFilm(context.Context, *SearchFilmRequest
 }
 func (UnimplementedFilmRpcServer) GetAllCategory(context.Context, *CommonRequest) (*GetCategoryListResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetAllCategory not implemented")
+}
+func (UnimplementedFilmRpcServer) GetCinemaFilm(context.Context, *CinemaFilmRequest) (*CinemaFilmResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetCinemaFilm not implemented")
 }
 func (UnimplementedFilmRpcServer) mustEmbedUnimplementedFilmRpcServer() {}
 
@@ -376,6 +390,24 @@ func _FilmRpc_GetAllCategory_Handler(srv interface{}, ctx context.Context, dec f
 	return interceptor(ctx, in, info, handler)
 }
 
+func _FilmRpc_GetCinemaFilm_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CinemaFilmRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(FilmRpcServer).GetCinemaFilm(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/film.filmRpc/GetCinemaFilm",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(FilmRpcServer).GetCinemaFilm(ctx, req.(*CinemaFilmRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // FilmRpc_ServiceDesc is the grpc.ServiceDesc for FilmRpc service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -422,6 +454,10 @@ var FilmRpc_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GetAllCategory",
 			Handler:    _FilmRpc_GetAllCategory_Handler,
+		},
+		{
+			MethodName: "GetCinemaFilm",
+			Handler:    _FilmRpc_GetCinemaFilm_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

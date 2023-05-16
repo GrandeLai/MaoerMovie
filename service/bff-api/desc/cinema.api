@@ -1,0 +1,121 @@
+syntax = "v1"
+
+info(
+    title: "cinema api"
+    author: "JDaw"
+)
+
+import "desc/common.api"
+
+type(
+    CinemaListRequest{
+        BrandId string `json:"brand_id"`
+        HallType string `json:"hall_type"`
+        DistrictId string `json:"district_id"`
+        PageLimit
+    }
+
+    CinemaListResponse{
+        Status
+        List []CinemaPreview `json:"list"`
+        Total string `json:"total"`
+    }
+
+    CinemaPreview{
+        CinemaId string `json:"cinema_id"`
+        CinemaName string `json:"cinema_name"`
+        Address string `json:"address"`
+        MinPrice string `json:"min_price"`
+    }
+
+    ConditionListRequest{
+        CityName string `json:"city_name"`
+    }
+
+    ConditionListResponse{
+        Status
+        BrandList []BrandCondition `json:"brand_list"`
+        DistrictList []DistrictCondition `json:"district_list"`
+        HallTypeList []HallType `json:"hall_type_list"`
+    }
+
+    BrandCondition{
+        Id string `json:"id"`
+        BrandName string `json:"brand_name"`
+    }
+
+    DistrictCondition{
+        Id string `json:"id"`
+        DistrictName string `json:"district_name"`
+    }
+
+    HallType{
+        Id string `json:"id"`
+        HallTypeName string `json:"hall_type_name"`
+    }
+
+    CinemaFilmListRequest{
+        CinemaId string `json:"cinema_id"`
+    }
+
+    CinemaFilmListResponse{
+        Status
+        FilmList []CinemaFilm `json:"film_list"`
+        CinemaName string `json:"cinema_name"`
+        CinemaAddress string `json:"cinema_address"`
+        CinemaPhone string `json:"cinema_phone"`
+        CinemaImgs string `json:"cinema_imgs"`
+    }
+
+    CinemaFilm{
+        FilmId string  `json:"film_d"`
+        FilmName     string   `json:"film_name"`
+        FilmLength string   `json:"film_length"`
+        FilmCover     string   `json:"film_cover"`
+        FilmCategory string   `json:"film_category"`
+        ActorList string `json:"actor_list"`
+    }
+
+    CinemaShowListRequest{
+        CinemaId string `json:"cinema_id"`
+        FilmId string `json:"film_id"`
+        Date string `json:"date"`
+    }
+
+    CinemaShowListResponse{
+        Status
+        ShowList []CinemaShow `json:"show_list"`
+    }
+
+    CinemaShow{
+        ShowId string `json:"show_id"`
+        BeginTime string `json:"begin_time"`
+        EndTime string `json:"end_time"`
+        Language string `json:"language"`
+        Price string `json:"price"`
+        HallName string `json:"hall_name"`
+    }
+
+    HallSeatInfoRequest{
+        HallId string `json:"hall_id"`
+    }
+
+    HallSeatInfoResponse{
+        Status
+        SeatInfo
+        SoldSeats string `json:"sold_seats"`
+    }
+
+    SeatInfo{
+        AllSeats string `json:"all_seats"`
+        Single [][]Seat `json:"single"`
+        Couple [][]Seat `json:"couple"`
+    }
+
+    Seat{
+        SeatId int `json:"seat_id"`
+        Row int `json:"row"`
+        Column int `json:"column"`
+    }
+)
+

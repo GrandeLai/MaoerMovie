@@ -71,3 +71,8 @@ func (s *FilmRpcServer) GetAllCategory(ctx context.Context, in *pb.CommonRequest
 	l := logic.NewGetAllCategoryLogic(ctx, s.svcCtx)
 	return l.GetAllCategory(in)
 }
+
+func (s *FilmRpcServer) GetCinemaFilm(ctx context.Context, in *pb.CinemaFilmRequest) (*pb.CinemaFilmResponse, error) {
+	l := logic.NewGetCinemaFilmLogic(ctx, s.svcCtx)
+	return l.GetCinemaFilm(in)
+}

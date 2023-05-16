@@ -11,6 +11,7 @@ import(
 	"desc/user.api"
 	"desc/film.api"
 	"desc/admin.api"
+	"desc/cinema.api"
 )
 
 @server(
@@ -148,4 +149,40 @@ service maoermovie {
 	)
 	@handler FilmRemove
 	post /film_remove(FilmDeleteRequest) returns (CommonResponse)
+}
+
+@server (
+	group: cinema
+	prefix: cinema
+)
+service maoermovie {
+	@doc(
+		summary: "查询影院列表"
+	)
+	@handler GetCinemaList
+	get /get_list(CinemaListRequest) returns (CinemaListResponse)
+	
+	@doc(
+		summary: "获取影院查询条件列表"
+	)
+	@handler GetConditionList
+	get /get_condition(ConditionListRequest) returns (ConditionListResponse)
+	
+	@doc(
+		summary: "获取影院播放电影列表"
+	)
+	@handler GetCinemaFilmList
+	get /get_film_list(CinemaFilmListRequest) returns (CinemaFilmListResponse)
+	
+	@doc(
+		summary: "获取影院播放电影场次列表"
+	)
+	@handler GetCinemaShowList
+	get /get_show_list(CinemaShowListRequest) returns (CinemaShowListResponse)
+	
+	@doc(
+		summary: "获取影厅座位信息"
+	)
+	@handler GetHallSeatInfo
+	get /get_hall_seat(HallSeatInfoRequest) returns (HallSeatInfoResponse)
 }

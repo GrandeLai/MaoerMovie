@@ -6,6 +6,7 @@ import (
 
 	admin "MaoerMovie/service/bff-api/internal/handler/admin"
 	auth "MaoerMovie/service/bff-api/internal/handler/auth"
+	cinema "MaoerMovie/service/bff-api/internal/handler/cinema"
 	film "MaoerMovie/service/bff-api/internal/handler/film"
 	user "MaoerMovie/service/bff-api/internal/handler/user"
 	"MaoerMovie/service/bff-api/internal/svc"
@@ -125,5 +126,36 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 		},
 		rest.WithJwt(serverCtx.Config.Auth.AccessSecret),
 		rest.WithPrefix("/admin"),
+	)
+
+	server.AddRoutes(
+		[]rest.Route{
+			{
+				Method:  http.MethodGet,
+				Path:    "/get_list",
+				Handler: cinema.GetCinemaListHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodGet,
+				Path:    "/get_condition",
+				Handler: cinema.GetConditionListHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodGet,
+				Path:    "/get_film_list",
+				Handler: cinema.GetCinemaFilmListHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodGet,
+				Path:    "/get_show_list",
+				Handler: cinema.GetCinemaShowListHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodGet,
+				Path:    "/get_hall_seat",
+				Handler: cinema.GetHallSeatInfoHandler(serverCtx),
+			},
+		},
+		rest.WithPrefix("/cinema"),
 	)
 }

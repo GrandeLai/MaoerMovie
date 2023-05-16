@@ -17,6 +17,9 @@ type (
 	ActorListResponse       = pb.ActorListResponse
 	AdminFilmListResponse   = pb.AdminFilmListResponse
 	Category                = pb.Category
+	CinemaFilm              = pb.CinemaFilm
+	CinemaFilmRequest       = pb.CinemaFilmRequest
+	CinemaFilmResponse      = pb.CinemaFilmResponse
 	CommonRequest           = pb.CommonRequest
 	Film                    = pb.Film
 	FilmCreateRequest       = pb.FilmCreateRequest
@@ -47,6 +50,7 @@ type (
 		GetActorList(ctx context.Context, in *ListRequest, opts ...grpc.CallOption) (*ActorListResponse, error)
 		SearchFilm(ctx context.Context, in *SearchFilmRequest, opts ...grpc.CallOption) (*SearchFilmResponse, error)
 		GetAllCategory(ctx context.Context, in *CommonRequest, opts ...grpc.CallOption) (*GetCategoryListResponse, error)
+		GetCinemaFilm(ctx context.Context, in *CinemaFilmRequest, opts ...grpc.CallOption) (*CinemaFilmResponse, error)
 	}
 
 	defaultFilmRpc struct {
@@ -108,4 +112,9 @@ func (m *defaultFilmRpc) SearchFilm(ctx context.Context, in *SearchFilmRequest, 
 func (m *defaultFilmRpc) GetAllCategory(ctx context.Context, in *CommonRequest, opts ...grpc.CallOption) (*GetCategoryListResponse, error) {
 	client := pb.NewFilmRpcClient(m.cli.Conn())
 	return client.GetAllCategory(ctx, in, opts...)
+}
+
+func (m *defaultFilmRpc) GetCinemaFilm(ctx context.Context, in *CinemaFilmRequest, opts ...grpc.CallOption) (*CinemaFilmResponse, error) {
+	client := pb.NewFilmRpcClient(m.cli.Conn())
+	return client.GetCinemaFilm(ctx, in, opts...)
 }

@@ -39,8 +39,8 @@ type (
 
 	FilmActor struct {
 		Id       int64  `db:"id"`        // 主键编号
-		FilmId   int64  `db:"film_id"`   // 影片编号,对应mooc_film_t
-		ActorId  int64  `db:"actor_id"`  // 演员编号,对应mooc_actor_t
+		FilmId   int64  `db:"film_id"`   // 影片编号,对应film
+		ActorId  int64  `db:"actor_id"`  // 演员编号,对应actor
 		RoleName string `db:"role_name"` // 角色名称
 	}
 )

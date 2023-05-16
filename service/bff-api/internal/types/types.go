@@ -241,3 +241,113 @@ type Actor struct {
 	ActorName   string `json:"actor_name""`
 	ActorAvatar string `json:"actor_avatar"`
 }
+
+type CinemaListRequest struct {
+	BrandId    string `json:"brand_id"`
+	HallType   string `json:"hall_type"`
+	DistrictId string `json:"district_id"`
+	PageLimit
+}
+
+type CinemaListResponse struct {
+	Status
+	List  []CinemaPreview `json:"list"`
+	Total string          `json:"total"`
+}
+
+type CinemaPreview struct {
+	CinemaId   string `json:"cinema_id"`
+	CinemaName string `json:"cinema_name"`
+	Address    string `json:"address"`
+	MinPrice   string `json:"min_price"`
+}
+
+type ConditionListRequest struct {
+	CityName string `json:"city_name"`
+}
+
+type ConditionListResponse struct {
+	Status
+	BrandList    []BrandCondition    `json:"brand_list"`
+	DistrictList []DistrictCondition `json:"district_list"`
+	HallTypeList []HallType          `json:"hall_type_list"`
+}
+
+type BrandCondition struct {
+	Id        string `json:"id"`
+	BrandName string `json:"brand_name"`
+}
+
+type DistrictCondition struct {
+	Id           string `json:"id"`
+	DistrictName string `json:"district_name"`
+}
+
+type HallType struct {
+	Id           string `json:"id"`
+	HallTypeName string `json:"hall_type_name"`
+}
+
+type CinemaFilmListRequest struct {
+	CinemaId string `json:"cinema_id"`
+}
+
+type CinemaFilmListResponse struct {
+	Status
+	FilmList      []CinemaFilm `json:"film_list"`
+	CinemaName    string       `json:"cinema_name"`
+	CinemaAddress string       `json:"cinema_address"`
+	CinemaPhone   string       `json:"cinema_phone"`
+	CinemaImgs    string       `json:"cinema_imgs"`
+}
+
+type CinemaFilm struct {
+	FilmId       string `json:"film_d"`
+	FilmName     string `json:"film_name"`
+	FilmLength   string `json:"film_length"`
+	FilmCover    string `json:"film_cover"`
+	FilmCategory string `json:"film_category"`
+	ActorList    string `json:"actor_list"`
+}
+
+type CinemaShowListRequest struct {
+	CinemaId string `json:"cinema_id"`
+	FilmId   string `json:"film_id"`
+	Date     string `json:"date"`
+}
+
+type CinemaShowListResponse struct {
+	Status
+	ShowList []CinemaShow `json:"show_list"`
+}
+
+type CinemaShow struct {
+	ShowId    string `json:"show_id"`
+	BeginTime string `json:"begin_time"`
+	EndTime   string `json:"end_time"`
+	Language  string `json:"language"`
+	Price     string `json:"price"`
+	HallName  string `json:"hall_name"`
+}
+
+type HallSeatInfoRequest struct {
+	HallId string `json:"hall_id"`
+}
+
+type HallSeatInfoResponse struct {
+	Status
+	SeatInfo
+	SoldSeats string `json:"sold_seats"`
+}
+
+type SeatInfo struct {
+	AllSeats string   `json:"all_seats"`
+	Single   [][]Seat `json:"single"`
+	Couple   [][]Seat `json:"couple"`
+}
+
+type Seat struct {
+	SeatId int `json:"seat_id"`
+	Row    int `json:"row"`
+	Column int `json:"column"`
+}

@@ -11,7 +11,8 @@ type Config struct {
 		AccessSecret string
 		AccessExpire int64
 	}
-	UserRPC zrpc.RpcClientConf
-	FilmRpc zrpc.RpcClientConf
-	Salt    string
+	UserRPC   zrpc.RpcClientConf
+	FilmRpc   zrpc.RpcClientConf
+	CinemaRpc zrpc.RpcClientConf
+	Salt      string
 }

@@ -1,0 +1,96 @@
+syntax = "proto3";
+
+package cinema;
+
+option go_package='./pb';
+
+message CinemaListRequest{
+  string brandId=1;
+  string hallType=2;
+  string districtId=3;
+  string page=4;
+  string size=5;
+}
+
+message CinemaListResponse{
+  repeated CinemaPreview cinema=1;
+}
+
+message CinemaPreview{
+  string id=1;
+  string cinemaName=2;
+  string address=3;
+  string min_price=4;
+}
+
+message ConditionListRequest{
+  string cityName=1;
+}
+
+message ConditionListResponse{
+  repeated BrandCondition brandList=1;
+  repeated HallType hallList=2;
+  repeated DistrictCondition districtList=3;
+}
+
+message BrandCondition{
+  string id=1;
+  string brandName=2;
+}
+
+message DistrictCondition{
+  string id=1;
+  string districtName=2;
+}
+
+message HallType{
+  string id=1;
+  string HallTypeName=2;
+}
+
+message GetCinemaRequest{
+  string cinemaId=1;
+}
+
+message GetCinemaResponse{
+  string cinemaName=1;
+  string cinemaAddress=2;
+  string cinemaPhone=3;
+  string cinemaImgs=4;
+  repeated string filmIds=5;
+}
+
+message GetShowListRequest{
+  string cinemaId=1;
+  string filmId=2;
+  string showDate=3;
+}
+
+message GetShowListResponse{
+  repeated CinemaShow show=1;
+}
+
+message CinemaShow{
+  string id=1;
+  string beginTime=2;
+  string endTime=3;
+  string language=4;
+  string price=5;
+  string hallName=6;
+}
+
+message GetHallSeatsRequest{
+  string hallId=1;
+}
+
+message GetHallSeatsResponse{
+  bytes seatFile=1;
+}
+
+service cinemaRpc {
+  rpc GetCinemaList(CinemaListRequest) returns(CinemaListResponse);
+  rpc GetConditionList(ConditionListRequest) returns(ConditionListResponse);
+  rpc GetCinema(GetCinemaRequest) returns(GetCinemaResponse);
+  rpc GetShowList(GetShowListRequest) returns(GetShowListResponse);
+  rpc GetHallSeats(GetHallSeatsRequest) returns(GetHallSeatsResponse);
+}

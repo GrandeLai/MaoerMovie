@@ -159,6 +159,23 @@ message Category {
   string categoryName=2;
 }
 
+message CinemaFilmRequest{
+  repeated string filmIds=1;
+}
+
+message CinemaFilmResponse{
+  repeated CinemaFilm cinemaFilm=1;
+}
+
+message CinemaFilm{
+  string filmId=1;
+  string filmName=2;
+  string filmLength=3;
+  string filmCover=4;
+  string filmCategory=5;
+  string actorList=6;
+}
+
 service filmRpc {
   rpc GetFilm(FilmRequest) returns(GetFilmResponse);
   rpc GetFilmDetail(FilmRequest) returns(GetFilmDetailResponse);
@@ -170,4 +187,5 @@ service filmRpc {
   rpc GetActorList(ListRequest) returns(ActorListResponse);
   rpc SearchFilm(SearchFilmRequest) returns(SearchFilmResponse);
   rpc GetAllCategory(CommonRequest) returns(GetCategoryListResponse);
+  rpc GetCinemaFilm(CinemaFilmRequest) returns(CinemaFilmResponse);
 }

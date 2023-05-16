@@ -19,3 +19,9 @@ FilmRPC:
       - 127.0.0.1:2379
     Key: film.rpc
   TimeOut: 100000
+CinemaRPC:
+  Etcd:
+    Hosts:
+      - 127.0.0.1:2379
+    Key: cinema.rpc
+  TimeOut: 100000
