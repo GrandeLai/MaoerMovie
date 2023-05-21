@@ -1,13 +1,13 @@
 package cinema
 
 import (
+	"MaoerMovie/service/bff-api/internal/svc"
+	"MaoerMovie/service/bff-api/internal/types"
 	"MaoerMovie/service/cinema-rpc/types/pb"
+	pb2 "MaoerMovie/service/order-rpc/types/pb"
 	"context"
 	"encoding/json"
 	"errors"
-
-	"MaoerMovie/service/bff-api/internal/svc"
-	"MaoerMovie/service/bff-api/internal/types"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -38,6 +38,8 @@ func (l *GetHallSeatInfoLogic) GetHallSeatInfo(req *types.HallSeatInfoRequest) (
 		return nil, errors.New("json解析时出错")
 	}
 	resp.SeatInfo = seatInfo
-	//TODO:在order服务中查找已经售出的座位，并返回
+	//获取已经出售座位
+	orderRpcResp, err := l.svcCtx.OrderRPC.GetSoldSeats(l.ctx, &pb2.GetSoldSeatsRequest{ShowId: req.ShowId})
+	resp.SoldSeats = orderRpcResp.SoldSeats
 	return resp, nil
 }

@@ -1,0 +1,43 @@
+syntax = "v1"
+
+info(
+    title: "comment api"
+    author: "JDaw"
+)
+
+import "desc/common.api"
+
+type(
+    CreateCommentRequest{
+        FilmId string `json:"film_id"`
+        Content string `json:"content"`
+        Score string `json:"score"`
+    }
+
+    CreateCommentResponse{
+        Status
+        CommentId string `json:"comment_id"`
+    }
+
+    DeleteCommentRequest{
+        CommentId string `json:"comment_id"`
+    }
+
+    GetCommentListRequest{
+        PageLimit
+        FilmId string `json:"film_id"`
+    }
+
+    GetCommentListResponse{
+        Status
+        List []UserComment `json:"list"`
+        Total string `json:"total"`
+    }
+
+    UserComment{
+        UserPreview
+        CommentId string `json:"comment_id"`
+        Content string `json:"content"`
+        Score string `json:"score"`
+    }
+)

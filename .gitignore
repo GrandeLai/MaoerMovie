@@ -15,3 +15,5 @@
 # vendor/
 
 /common/utils/constants.go
+
+.yaml

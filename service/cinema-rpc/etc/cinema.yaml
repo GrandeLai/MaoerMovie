@@ -8,9 +8,6 @@ Etcd:
 Mysql:
   DataSource: root:123456@tcp(localhost:3306)/maoer_movie?charset=utf8mb4&parseTime=true&loc=Asia%2FShanghai
   TimeOut: 100000
-AuthAccess:
-  AccessSecret: b2cfcd59-86d4-413f-8e62-c15c7be7badf
-  AccessExpire: 33333
 RedisClient:
   Host: 8.134.142.44:6379
   Type: node

@@ -12,6 +12,9 @@ import(
 	"desc/film.api"
 	"desc/admin.api"
 	"desc/cinema.api"
+	"desc/comment.api"
+	"desc/order.api"
+	"desc/pay.api"
 )
 
 @server(
@@ -185,4 +188,98 @@ service maoermovie {
 	)
 	@handler GetHallSeatInfo
 	get /get_hall_seat(HallSeatInfoRequest) returns (HallSeatInfoResponse)
+}
+
+@server (
+	group: comment
+	prefix: comment
+	jwt: Auth
+)
+service maoermovie {
+	@doc(
+		summary: "创建评论"
+	)
+	@handler CreateComment
+	post /create(CreateCommentRequest) returns (CreateCommentResponse)
+	
+	@doc(
+		summary: "删除评论"
+	)
+	@handler DeleteComment
+	post /delete(DeleteCommentRequest) returns (CommonResponse)
+	
+	@doc(
+		summary: "获取评论列表"
+	)
+	@handler GetCommentList
+	get  /list(GetCommentListRequest) returns (GetCommentListResponse)
+}
+
+@server (
+	group: order
+	prefix: order
+	jwt: Auth
+)
+service maoermovie {
+	@doc(
+		summary: "订单创建"
+	)
+	@handler CreateOrder
+	post /create_order (CreateOrderRequest) returns (CreateOrderResponse)
+	
+	@doc(
+		summary: "订单详情"
+	)
+	@handler GetOrderDetail
+	get /get_detail (GetOrderDatilRequest) returns (GetOrderDetailResponse)
+	
+	@doc(
+		summary: "订单列表"
+	)
+	@handler GetOrderList
+	get /get_list(GetOrderListRequest) returns (GetOrderListResponse)
+	
+	@doc(
+		summary: "已支付订单列表"
+	)
+	@handler GetPaidList
+	get /get_paid_list(GetOrderListRequest) returns (GetPaidOrderListResponse)
+}
+
+@server (
+	group: pay
+	prefix: pay
+	jwt: Auth
+)
+service maoermovie {
+	@doc(
+		summary: "支付流水创建"
+	)
+	@handler CreatePay
+	post /create_pay (CreatePayRequest) returns (CreatePayResponse)
+	
+	@doc(
+		summary: "支付详细信息"
+	)
+	@handler PayDetail
+	get /detail(PayDeatilRequest) returns(PayDeatilResponse)
+}
+
+@server (
+	group: pay
+	prefix: pay
+)
+service maoermovie {
+	
+	@doc(
+		summary: "支付回调(不需要直接调用，由支付宝收到结果后调用)"
+	)
+	@handler PayCallback
+	post /call_back (PayCallBackRequest) returns(PayCallBackResponse)
+	
+	@doc(
+		summary: "支付信息返回(不需要直接调用，由支付宝收到结果后调用)"
+	)
+	@handler PayReturn
+	get /return(PayReturnRequest) returns(PayReturnResponse)
 }

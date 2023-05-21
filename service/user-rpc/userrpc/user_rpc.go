@@ -40,6 +40,7 @@ type (
 		UpdateUserInfo(ctx context.Context, in *UpdateUserInfoRequest, opts ...grpc.CallOption) (*UpdateUserInfoResponse, error)
 		GetUserInfo(ctx context.Context, in *GetUserInfoRequest, opts ...grpc.CallOption) (*GetUserInfoResponse, error)
 		SearchUser(ctx context.Context, in *SearchUserRequest, opts ...grpc.CallOption) (*SearchUserResponse, error)
+		GetUserPreview(ctx context.Context, in *GetUserInfoRequest, opts ...grpc.CallOption) (*UserPreview, error)
 	}
 
 	defaultUserRpc struct {
@@ -91,4 +92,9 @@ func (m *defaultUserRpc) GetUserInfo(ctx context.Context, in *GetUserInfoRequest
 func (m *defaultUserRpc) SearchUser(ctx context.Context, in *SearchUserRequest, opts ...grpc.CallOption) (*SearchUserResponse, error) {
 	client := user.NewUserRpcClient(m.cli.Conn())
 	return client.SearchUser(ctx, in, opts...)
+}
+
+func (m *defaultUserRpc) GetUserPreview(ctx context.Context, in *GetUserInfoRequest, opts ...grpc.CallOption) (*UserPreview, error) {
+	client := user.NewUserRpcClient(m.cli.Conn())
+	return client.GetUserPreview(ctx, in, opts...)
 }

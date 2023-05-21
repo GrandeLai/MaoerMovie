@@ -98,12 +98,13 @@ type(
 
     HallSeatInfoRequest{
         HallId string `json:"hall_id"`
+        ShowId string `json:"show_id"`
     }
 
     HallSeatInfoResponse{
         Status
         SeatInfo
-        SoldSeats string `json:"sold_seats"`
+        SoldSeats []int64 `json:"sold_seats"`
     }
 
     SeatInfo{

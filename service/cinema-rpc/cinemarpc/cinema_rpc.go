@@ -20,6 +20,8 @@ type (
 	CinemaShow            = pb.CinemaShow
 	ConditionListRequest  = pb.ConditionListRequest
 	ConditionListResponse = pb.ConditionListResponse
+	DeductSeatsRequest    = pb.DeductSeatsRequest
+	DeductSeatsResponse   = pb.DeductSeatsResponse
 	DistrictCondition     = pb.DistrictCondition
 	GetCinemaRequest      = pb.GetCinemaRequest
 	GetCinemaResponse     = pb.GetCinemaResponse
@@ -35,6 +37,8 @@ type (
 		GetCinema(ctx context.Context, in *GetCinemaRequest, opts ...grpc.CallOption) (*GetCinemaResponse, error)
 		GetShowList(ctx context.Context, in *GetShowListRequest, opts ...grpc.CallOption) (*GetShowListResponse, error)
 		GetHallSeats(ctx context.Context, in *GetHallSeatsRequest, opts ...grpc.CallOption) (*GetHallSeatsResponse, error)
+		DeductSeats(ctx context.Context, in *DeductSeatsRequest, opts ...grpc.CallOption) (*DeductSeatsResponse, error)
+		DeductSeatsRollBack(ctx context.Context, in *DeductSeatsRequest, opts ...grpc.CallOption) (*DeductSeatsResponse, error)
 	}
 
 	defaultCinemaRpc struct {
@@ -71,4 +75,14 @@ func (m *defaultCinemaRpc) GetShowList(ctx context.Context, in *GetShowListReque
 func (m *defaultCinemaRpc) GetHallSeats(ctx context.Context, in *GetHallSeatsRequest, opts ...grpc.CallOption) (*GetHallSeatsResponse, error) {
 	client := pb.NewCinemaRpcClient(m.cli.Conn())
 	return client.GetHallSeats(ctx, in, opts...)
+}
+
+func (m *defaultCinemaRpc) DeductSeats(ctx context.Context, in *DeductSeatsRequest, opts ...grpc.CallOption) (*DeductSeatsResponse, error) {
+	client := pb.NewCinemaRpcClient(m.cli.Conn())
+	return client.DeductSeats(ctx, in, opts...)
+}
+
+func (m *defaultCinemaRpc) DeductSeatsRollBack(ctx context.Context, in *DeductSeatsRequest, opts ...grpc.CallOption) (*DeductSeatsResponse, error) {
+	client := pb.NewCinemaRpcClient(m.cli.Conn())
+	return client.DeductSeatsRollBack(ctx, in, opts...)
 }

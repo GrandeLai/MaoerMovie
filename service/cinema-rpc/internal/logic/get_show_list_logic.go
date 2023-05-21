@@ -42,7 +42,7 @@ func (l *GetShowListLogic) GetShowList(in *pb.GetShowListRequest) (*pb.GetShowLi
 			BeginTime: showResp.BeginTime,
 			EndTime:   showResp.EndTime,
 			Language:  showResp.FilmLanguage,
-			Price:     utils.Int64ToString(showResp.Price),
+			Price:     utils.Float64ToString(showResp.Price),
 			HallName:  hall.HallName,
 		})
 	}

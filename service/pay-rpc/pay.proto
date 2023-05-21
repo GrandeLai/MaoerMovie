@@ -1,0 +1,44 @@
+syntax = "proto3";
+
+package pay;
+
+option go_package='./pb';
+
+message CreatePayRequest{
+  string orderId =1;
+  string userId=2;
+  string paySn=3;
+  string price=4;
+  string subject=5;
+}
+
+message CreatePayResponse{
+}
+
+message SetPayStatusRequest{
+  string paySn=1;
+  string buyerAccount=2;
+}
+
+message SetPayStatusResponse{
+}
+
+message GetPayDetailRequest{
+  string paySn=1;
+  string userId=2;
+}
+
+message GetPayDetailResponse{
+  string userId=1;
+  string orderId=2;
+  string price=3;
+  string subject=4;
+  string status=5;
+}
+
+service payRpc{
+  rpc CreatePay(CreatePayRequest) returns(CreatePayResponse);
+  rpc SetPayPaid(SetPayStatusRequest) returns(SetPayStatusResponse);
+  rpc SetPayPaidRollback(SetPayStatusRequest) returns(SetPayStatusResponse);
+  rpc GetPayDetail(GetPayDetailRequest) returns(GetPayDetailResponse);
+}

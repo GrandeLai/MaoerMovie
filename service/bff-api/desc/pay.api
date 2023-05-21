@@ -1,0 +1,51 @@
+syntax = "v1"
+
+info(
+    title: "pay api"
+    author: "JDaw"
+)
+
+import "desc/common.api"
+
+type(
+    CreatePayRequest{
+        OrderId string `json:"order_id"`
+        Price string  `json:"price"`
+        ShowId string `json:"show_id"`
+    }
+
+    CreatePayResponse{
+        Status
+        PayUrl string `json:"pay_url"`
+        PaySn string `json:"paySn"`
+    }
+
+    PayCallBackRequest{
+    }
+
+    PayCallBackResponse{
+        Status
+        Result string `json:"result"`
+    }
+
+    PayDeatilRequest{
+        PaySn string `json:"pay_sn"`
+    }
+
+    PayDeatilResponse{
+        Status
+        PaySn string `json:"paySn"`
+        OrderId string `json:"order_id"`
+        PayStatus string `json:"pay_status"`
+        Price string `json:"price"`
+        ShowId string `json:"show_id"`
+    }
+
+    PayReturnRequest{
+    }
+
+    PayReturnResponse{
+        Status
+        Result string `json:"result"`
+    }
+)

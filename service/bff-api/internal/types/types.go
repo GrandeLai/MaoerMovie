@@ -65,7 +65,7 @@ type PageLimit struct {
 
 type UserPreview struct {
 	Id        string `json:"id"`
-	Name      string `json:"nick_name"`
+	Name      string `json:"name"`
 	AvatarUrl string `json:"avatar_url"`
 }
 
@@ -332,12 +332,13 @@ type CinemaShow struct {
 
 type HallSeatInfoRequest struct {
 	HallId string `json:"hall_id"`
+	ShowId string `json:"show_id"`
 }
 
 type HallSeatInfoResponse struct {
 	Status
 	SeatInfo
-	SoldSeats string `json:"sold_seats"`
+	SoldSeats []int64 `json:"sold_seats"`
 }
 
 type SeatInfo struct {
@@ -350,4 +351,130 @@ type Seat struct {
 	SeatId int `json:"seat_id"`
 	Row    int `json:"row"`
 	Column int `json:"column"`
+}
+
+type CreateCommentRequest struct {
+	FilmId  string `json:"film_id"`
+	Content string `json:"content"`
+	Score   string `json:"score"`
+}
+
+type CreateCommentResponse struct {
+	Status
+	CommentId string `json:"comment_id"`
+}
+
+type DeleteCommentRequest struct {
+	CommentId string `json:"comment_id"`
+}
+
+type GetCommentListRequest struct {
+	PageLimit
+	FilmId string `json:"film_id"`
+}
+
+type GetCommentListResponse struct {
+	Status
+	List  []UserComment `json:"list"`
+	Total string        `json:"total"`
+}
+
+type UserComment struct {
+	UserPreview
+	CommentId string `json:"comment_id"`
+	Content   string `json:"content"`
+	Score     string `json:"score"`
+}
+
+type CreateOrderRequest struct {
+	CinemaId     string `json:"cinema_id"`
+	FilmId       string `json:"film_id"`
+	ShowId       string `json:"show_id"`
+	Price        string `json:"price"`
+	SeatIds      string `json:"seat_ids"`
+	SeatPosition string `json:"seat_position"`
+	SeatNum      string `json:"seat_num"`
+}
+
+type CreateOrderResponse struct {
+	Status
+	OrderId string `json:"order_id"`
+}
+
+type GetOrderDatilRequest struct {
+	OrderId string `json:"order_id"`
+}
+
+type GetOrderDetailResponse struct {
+	Status
+	OrderDetail
+}
+
+type OrderDetail struct {
+	OrderId      string `json:"order_id"`
+	ShowId       string `json:"show_id"`
+	Price        string `json:"price"`
+	Status       string `json:"status"`
+	SeatIds      string `json:"seat_ids"`
+	SeatPosition string `json:"seat_position"`
+	SeatNum      string `json:"seat_num"`
+	FilmName     string `json:"film_name"`
+	CinemaName   string `json:"cinema_name"`
+}
+
+type GetOrderListRequest struct {
+	PageLimit
+}
+
+type GetOrderListResponse struct {
+	Status
+	OrderList []OrderDetail `json:"order_list"`
+	Total     string        `json:"total"`
+}
+
+type GetPaidOrderListResponse struct {
+	Status
+	OrderList []OrderDetail `json:"order_list"`
+	Total     string        `json:"total"`
+}
+
+type CreatePayRequest struct {
+	OrderId string `json:"order_id"`
+	Price   string `json:"price"`
+	ShowId  string `json:"show_id"`
+}
+
+type CreatePayResponse struct {
+	Status
+	PayUrl string `json:"pay_url"`
+	PaySn  string `json:"paySn"`
+}
+
+type PayCallBackRequest struct {
+}
+
+type PayCallBackResponse struct {
+	Status
+	Result string `json:"result"`
+}
+
+type PayDeatilRequest struct {
+	PaySn string `json:"pay_sn"`
+}
+
+type PayDeatilResponse struct {
+	Status
+	PaySn     string `json:"paySn"`
+	OrderId   string `json:"order_id"`
+	PayStatus string `json:"pay_status"`
+	Price     string `json:"price"`
+	ShowId    string `json:"show_id"`
+}
+
+type PayReturnRequest struct {
+}
+
+type PayReturnResponse struct {
+	Status
+	Result string `json:"result"`
 }

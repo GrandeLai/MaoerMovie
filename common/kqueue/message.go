@@ -38,3 +38,16 @@ type ActorInsert struct {
 	FilmId    int64
 	RoleList  string
 }
+
+type CreateOrderMessage struct {
+	OrderId      string `json:"order_id"`
+	CinemaId     string `json:"cinema_id"`
+	FilmId       string `json:"film_id"`
+	ShowId       string `json:"show_id"`
+	Price        string `json:"price"`
+	Status       string `json:"status"`
+	SeatIds      string `json:"seat_ids"`
+	SeatPosition string `json:"seat_position"`
+	SeatNum      string `json:"seat_num"`
+	UserId       string `json:"user_id"`
+}

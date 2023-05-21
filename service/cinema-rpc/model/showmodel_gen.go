@@ -19,8 +19,8 @@ import (
 var (
 	showFieldNames          = builder.RawFieldNames(&Show{})
 	showRows                = strings.Join(showFieldNames, ",")
-	showRowsExpectAutoSet   = strings.Join(stringx.Remove(showFieldNames, "`id`", "`update_time`", "`create_at`", "`created_at`", "`create_time`", "`update_at`", "`updated_at`"), ",")
-	showRowsWithPlaceHolder = strings.Join(stringx.Remove(showFieldNames, "`id`", "`update_time`", "`create_at`", "`created_at`", "`create_time`", "`update_at`", "`updated_at`"), "=?,") + "=?"
+	showRowsExpectAutoSet   = strings.Join(stringx.Remove(showFieldNames, "`id`", "`updated_at`", "`update_time`", "`create_at`", "`created_at`", "`create_time`", "`update_at`"), ",")
+	showRowsWithPlaceHolder = strings.Join(stringx.Remove(showFieldNames, "`id`", "`updated_at`", "`update_time`", "`create_at`", "`created_at`", "`create_time`", "`update_at`"), "=?,") + "=?"
 
 	cacheShowIdPrefix = "cache:show:id:"
 )
@@ -45,9 +45,10 @@ type (
 		BeginTime    string    `db:"begin_time"`    // 开始时间
 		EndTime      string    `db:"end_time"`      // 结束时间
 		HallId       int64     `db:"hall_id"`       // 放映厅类型编号
-		Price        int64     `db:"price"`         // 票价
+		Price        float64   `db:"price"`         // 票价
 		Date         time.Time `db:"date"`          // 放映日期
 		FilmLanguage string    `db:"film_language"` // 电影语言
+		SoldNum      int64     `db:"sold_num"`      // 放映厅类型编号
 	}
 )
 
@@ -87,8 +88,8 @@ func (m *defaultShowModel) FindOne(ctx context.Context, id int64) (*Show, error)
 func (m *defaultShowModel) Insert(ctx context.Context, data *Show) (sql.Result, error) {
 	showIdKey := fmt.Sprintf("%s%v", cacheShowIdPrefix, data.Id)
 	ret, err := m.ExecCtx(ctx, func(ctx context.Context, conn sqlx.SqlConn) (result sql.Result, err error) {
-		query := fmt.Sprintf("insert into %s (%s) values (?, ?, ?, ?, ?, ?, ?, ?)", m.table, showRowsExpectAutoSet)
-		return conn.ExecCtx(ctx, query, data.CinemaId, data.FilmId, data.BeginTime, data.EndTime, data.HallId, data.Price, data.Date, data.FilmLanguage)
+		query := fmt.Sprintf("insert into %s (%s) values (?, ?, ?, ?, ?, ?, ?, ?, ?)", m.table, showRowsExpectAutoSet)
+		return conn.ExecCtx(ctx, query, data.CinemaId, data.FilmId, data.BeginTime, data.EndTime, data.HallId, data.Price, data.Date, data.FilmLanguage, data.SoldNum)
 	}, showIdKey)
 	return ret, err
 }
@@ -97,7 +98,7 @@ func (m *defaultShowModel) Update(ctx context.Context, data *Show) error {
 	showIdKey := fmt.Sprintf("%s%v", cacheShowIdPrefix, data.Id)
 	_, err := m.ExecCtx(ctx, func(ctx context.Context, conn sqlx.SqlConn) (result sql.Result, err error) {
 		query := fmt.Sprintf("update %s set %s where `id` = ?", m.table, showRowsWithPlaceHolder)
-		return conn.ExecCtx(ctx, query, data.CinemaId, data.FilmId, data.BeginTime, data.EndTime, data.HallId, data.Price, data.Date, data.FilmLanguage, data.Id)
+		return conn.ExecCtx(ctx, query, data.CinemaId, data.FilmId, data.BeginTime, data.EndTime, data.HallId, data.Price, data.Date, data.FilmLanguage, data.SoldNum, data.Id)
 	}, showIdKey)
 	return err
 }

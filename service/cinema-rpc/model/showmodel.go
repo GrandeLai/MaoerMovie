@@ -2,6 +2,8 @@ package model
 
 import (
 	"context"
+	"database/sql"
+	"fmt"
 	"github.com/Masterminds/squirrel"
 	"github.com/zeromicro/go-zero/core/stores/cache"
 	"github.com/zeromicro/go-zero/core/stores/sqlc"
@@ -16,6 +18,7 @@ type (
 	ShowModel interface {
 		showModel
 		FindByFactors(ctx context.Context, cinemaId int64, filmId int64, date string) ([]*Show, error)
+		TxUpdateSurplusNumWithLock(tx *sql.Tx, num int64, showId int64) (sql.Result, error)
 	}
 
 	customShowModel struct {
@@ -45,6 +48,15 @@ func (m *defaultShowModel) FindByFactors(ctx context.Context, cinemaId int64, fi
 	default:
 		return nil, err
 	}
+}
+
+func (m *defaultShowModel) TxUpdateSurplusNumWithLock(tx *sql.Tx, num int64, showId int64) (sql.Result, error) {
+	showIdKey := fmt.Sprintf("%s%v", cacheShowIdPrefix, showId)
+	ret, err := m.Exec(func(conn sqlx.SqlConn) (result sql.Result, err error) {
+		query := fmt.Sprintf("update %s set surplus_num = surplus_num + ?  where `id` = ? and `surplus_num` > 0", m.table)
+		return tx.Exec(query, num, showId)
+	}, showIdKey)
+	return ret, err
 }
 
 func (m *defaultShowModel) RowBuilder() squirrel.SelectBuilder {

@@ -17,7 +17,7 @@ type PageLimit {
 
 type UserPreview {
     Id string `json:"id"`
-    Name string `json:"nick_name"`
+    Name string `json:"name"`
     AvatarUrl string `json:"avatar_url"`
 }
 

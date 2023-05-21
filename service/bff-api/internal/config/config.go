@@ -11,8 +11,13 @@ type Config struct {
 		AccessSecret string
 		AccessExpire int64
 	}
-	UserRPC   zrpc.RpcClientConf
-	FilmRpc   zrpc.RpcClientConf
-	CinemaRpc zrpc.RpcClientConf
-	Salt      string
+	UserRPC    zrpc.RpcClientConf
+	FilmRpc    zrpc.RpcClientConf
+	CinemaRpc  zrpc.RpcClientConf
+	CommentRpc zrpc.RpcClientConf
+	OrderRpc   zrpc.RpcClientConf
+	DtmServer  string
+	Salt       string
+	//AlipayClient alipay.Client
+	PayRpc zrpc.RpcClientConf
 }

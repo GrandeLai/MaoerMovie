@@ -8,10 +8,6 @@ import (
 
 type Config struct {
 	zrpc.RpcServerConf
-	AuthAccess struct {
-		AccessSecret string
-		AccessExpire int64
-	}
 	Mysql struct {
 		DataSource string
 	}

@@ -3,6 +3,7 @@ package logic
 import (
 	"MaoerMovie/common/utils"
 	"context"
+	"encoding/json"
 	"errors"
 	"github.com/minio/minio-go/v7"
 	"io/ioutil"
@@ -28,6 +29,10 @@ func NewGetHallSeatsLogic(ctx context.Context, svcCtx *svc.ServiceContext) *GetH
 	}
 }
 
+type Seat struct {
+	AllSeats string
+}
+
 func (l *GetHallSeatsLogic) GetHallSeats(in *pb.GetHallSeatsRequest) (*pb.GetHallSeatsResponse, error) {
 	hallId := utils.StringToInt64(in.HallId)
 	hall, err := l.svcCtx.HallModel.FindOne(l.ctx, hallId)
@@ -41,6 +46,16 @@ func (l *GetHallSeatsLogic) GetHallSeats(in *pb.GetHallSeatsRequest) (*pb.GetHal
 	}
 	defer object.Close()
 	data, err := ioutil.ReadAll(object)
+	if err != nil {
+		return nil, err
+	}
+	var seats Seat
+	err = json.Unmarshal(data, &seats)
+	if err != nil {
+		return nil, err
+	}
+	redisQueryKey := utils.CacheHallKey + in.HallId
+	err = l.svcCtx.RedisClient.Set(redisQueryKey, seats.AllSeats)
 	if err != nil {
 		return nil, err
 	}

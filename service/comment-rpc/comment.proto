@@ -1,0 +1,47 @@
+syntax = "proto3";
+
+package comment;
+
+option go_package='./pb';
+
+message CreateCommentRequest{
+  string filmId=1;
+  string userId=2;
+  string content=3;
+  string score=4;
+}
+
+message CreateCommentResponse{
+  string commentId=1;
+}
+
+message DeleteCommentRequest{
+  string commentId=1;
+  string userId=2;
+}
+
+message DeleteCommentResponse{
+}
+
+message GetCommentListRequest{
+  string filmId=1;
+  string page=2;
+  string size=3;
+}
+
+message GetCommentListResponse{
+  repeated CommentPreview list=1;
+}
+
+message CommentPreview{
+  string commentId=1;
+  string content=2;
+  string score=3;
+  string userId=4;
+}
+
+service commentRpc {
+  rpc CreateComment(CreateCommentRequest) returns(CreateCommentResponse);
+  rpc DeleteComment(DeleteCommentRequest) returns(DeleteCommentResponse);
+  rpc GetCommentList(GetCommentListRequest) returns(GetCommentListResponse);
+}

@@ -27,6 +27,8 @@ type CinemaRpcClient interface {
 	GetCinema(ctx context.Context, in *GetCinemaRequest, opts ...grpc.CallOption) (*GetCinemaResponse, error)
 	GetShowList(ctx context.Context, in *GetShowListRequest, opts ...grpc.CallOption) (*GetShowListResponse, error)
 	GetHallSeats(ctx context.Context, in *GetHallSeatsRequest, opts ...grpc.CallOption) (*GetHallSeatsResponse, error)
+	DeductSeats(ctx context.Context, in *DeductSeatsRequest, opts ...grpc.CallOption) (*DeductSeatsResponse, error)
+	DeductSeatsRollBack(ctx context.Context, in *DeductSeatsRequest, opts ...grpc.CallOption) (*DeductSeatsResponse, error)
 }
 
 type cinemaRpcClient struct {
@@ -82,6 +84,24 @@ func (c *cinemaRpcClient) GetHallSeats(ctx context.Context, in *GetHallSeatsRequ
 	return out, nil
 }
 
+func (c *cinemaRpcClient) DeductSeats(ctx context.Context, in *DeductSeatsRequest, opts ...grpc.CallOption) (*DeductSeatsResponse, error) {
+	out := new(DeductSeatsResponse)
+	err := c.cc.Invoke(ctx, "/cinema.cinemaRpc/DeductSeats", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *cinemaRpcClient) DeductSeatsRollBack(ctx context.Context, in *DeductSeatsRequest, opts ...grpc.CallOption) (*DeductSeatsResponse, error) {
+	out := new(DeductSeatsResponse)
+	err := c.cc.Invoke(ctx, "/cinema.cinemaRpc/DeductSeatsRollBack", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // CinemaRpcServer is the server API for CinemaRpc service.
 // All implementations must embed UnimplementedCinemaRpcServer
 // for forward compatibility
@@ -91,6 +111,8 @@ type CinemaRpcServer interface {
 	GetCinema(context.Context, *GetCinemaRequest) (*GetCinemaResponse, error)
 	GetShowList(context.Context, *GetShowListRequest) (*GetShowListResponse, error)
 	GetHallSeats(context.Context, *GetHallSeatsRequest) (*GetHallSeatsResponse, error)
+	DeductSeats(context.Context, *DeductSeatsRequest) (*DeductSeatsResponse, error)
+	DeductSeatsRollBack(context.Context, *DeductSeatsRequest) (*DeductSeatsResponse, error)
 	mustEmbedUnimplementedCinemaRpcServer()
 }
 
@@ -112,6 +134,12 @@ func (UnimplementedCinemaRpcServer) GetShowList(context.Context, *GetShowListReq
 }
 func (UnimplementedCinemaRpcServer) GetHallSeats(context.Context, *GetHallSeatsRequest) (*GetHallSeatsResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetHallSeats not implemented")
+}
+func (UnimplementedCinemaRpcServer) DeductSeats(context.Context, *DeductSeatsRequest) (*DeductSeatsResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DeductSeats not implemented")
+}
+func (UnimplementedCinemaRpcServer) DeductSeatsRollBack(context.Context, *DeductSeatsRequest) (*DeductSeatsResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DeductSeatsRollBack not implemented")
 }
 func (UnimplementedCinemaRpcServer) mustEmbedUnimplementedCinemaRpcServer() {}
 
@@ -216,6 +244,42 @@ func _CinemaRpc_GetHallSeats_Handler(srv interface{}, ctx context.Context, dec f
 	return interceptor(ctx, in, info, handler)
 }
 
+func _CinemaRpc_DeductSeats_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DeductSeatsRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CinemaRpcServer).DeductSeats(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/cinema.cinemaRpc/DeductSeats",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CinemaRpcServer).DeductSeats(ctx, req.(*DeductSeatsRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _CinemaRpc_DeductSeatsRollBack_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DeductSeatsRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CinemaRpcServer).DeductSeatsRollBack(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/cinema.cinemaRpc/DeductSeatsRollBack",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CinemaRpcServer).DeductSeatsRollBack(ctx, req.(*DeductSeatsRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // CinemaRpc_ServiceDesc is the grpc.ServiceDesc for CinemaRpc service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -242,6 +306,14 @@ var CinemaRpc_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GetHallSeats",
 			Handler:    _CinemaRpc_GetHallSeats_Handler,
+		},
+		{
+			MethodName: "DeductSeats",
+			Handler:    _CinemaRpc_DeductSeats_Handler,
+		},
+		{
+			MethodName: "DeductSeatsRollBack",
+			Handler:    _CinemaRpc_DeductSeatsRollBack_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

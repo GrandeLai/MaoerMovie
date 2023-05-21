@@ -1,5 +1,5 @@
 Name: maoermovie
-Host: 0.0.0.0
+Host: 127.0.0.1
 Port: 8888
 TimeOut: 100000
 Mode: dev
@@ -25,3 +25,23 @@ CinemaRPC:
       - 127.0.0.1:2379
     Key: cinema.rpc
   TimeOut: 100000
+CommentRPC:
+  Etcd:
+    Hosts:
+      - 127.0.0.1:2379
+    Key: comment.rpc
+  TimeOut: 100000
+OrderRPC:
+  Etcd:
+    Hosts:
+      - 127.0.0.1:2379
+    Key: order.rpc
+  TimeOut: 100000
+PayRPC:
+  Etcd:
+    Hosts:
+      - 127.0.0.1:2379
+    Key: pay.rpc
+  TimeOut: 100000
+DtmServer: "etcd://localhost:2379/dtmservice"
+

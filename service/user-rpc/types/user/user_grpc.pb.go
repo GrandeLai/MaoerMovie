@@ -30,6 +30,7 @@ type UserRpcClient interface {
 	UpdateUserInfo(ctx context.Context, in *UpdateUserInfoRequest, opts ...grpc.CallOption) (*UpdateUserInfoResponse, error)
 	GetUserInfo(ctx context.Context, in *GetUserInfoRequest, opts ...grpc.CallOption) (*GetUserInfoResponse, error)
 	SearchUser(ctx context.Context, in *SearchUserRequest, opts ...grpc.CallOption) (*SearchUserResponse, error)
+	GetUserPreview(ctx context.Context, in *GetUserInfoRequest, opts ...grpc.CallOption) (*UserPreview, error)
 }
 
 type userRpcClient struct {
@@ -112,6 +113,15 @@ func (c *userRpcClient) SearchUser(ctx context.Context, in *SearchUserRequest, o
 	return out, nil
 }
 
+func (c *userRpcClient) GetUserPreview(ctx context.Context, in *GetUserInfoRequest, opts ...grpc.CallOption) (*UserPreview, error) {
+	out := new(UserPreview)
+	err := c.cc.Invoke(ctx, "/user.userRpc/GetUserPreview", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // UserRpcServer is the server API for UserRpc service.
 // All implementations must embed UnimplementedUserRpcServer
 // for forward compatibility
@@ -124,6 +134,7 @@ type UserRpcServer interface {
 	UpdateUserInfo(context.Context, *UpdateUserInfoRequest) (*UpdateUserInfoResponse, error)
 	GetUserInfo(context.Context, *GetUserInfoRequest) (*GetUserInfoResponse, error)
 	SearchUser(context.Context, *SearchUserRequest) (*SearchUserResponse, error)
+	GetUserPreview(context.Context, *GetUserInfoRequest) (*UserPreview, error)
 	mustEmbedUnimplementedUserRpcServer()
 }
 
@@ -154,6 +165,9 @@ func (UnimplementedUserRpcServer) GetUserInfo(context.Context, *GetUserInfoReque
 }
 func (UnimplementedUserRpcServer) SearchUser(context.Context, *SearchUserRequest) (*SearchUserResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method SearchUser not implemented")
+}
+func (UnimplementedUserRpcServer) GetUserPreview(context.Context, *GetUserInfoRequest) (*UserPreview, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetUserPreview not implemented")
 }
 func (UnimplementedUserRpcServer) mustEmbedUnimplementedUserRpcServer() {}
 
@@ -312,6 +326,24 @@ func _UserRpc_SearchUser_Handler(srv interface{}, ctx context.Context, dec func(
 	return interceptor(ctx, in, info, handler)
 }
 
+func _UserRpc_GetUserPreview_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetUserInfoRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserRpcServer).GetUserPreview(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/user.userRpc/GetUserPreview",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserRpcServer).GetUserPreview(ctx, req.(*GetUserInfoRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // UserRpc_ServiceDesc is the grpc.ServiceDesc for UserRpc service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -350,6 +382,10 @@ var UserRpc_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "SearchUser",
 			Handler:    _UserRpc_SearchUser_Handler,
+		},
+		{
+			MethodName: "GetUserPreview",
+			Handler:    _UserRpc_GetUserPreview_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

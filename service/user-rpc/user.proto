@@ -110,4 +110,5 @@ service userRpc {
   rpc UpdateUserInfo(UpdateUserInfoRequest) returns(UpdateUserInfoResponse);
   rpc GetUserInfo(GetUserInfoRequest) returns(GetUserInfoResponse);
   rpc SearchUser(SearchUserRequest) returns(SearchUserResponse);
+  rpc GetUserPreview(GetUserInfoRequest) returns(UserPreview);
 }

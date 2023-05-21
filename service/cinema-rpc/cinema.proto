@@ -87,10 +87,20 @@ message GetHallSeatsResponse{
   bytes seatFile=1;
 }
 
+message DeductSeatsRequest{
+  string showId=1;
+  string num=2;
+}
+
+message DeductSeatsResponse{
+}
+
 service cinemaRpc {
   rpc GetCinemaList(CinemaListRequest) returns(CinemaListResponse);
   rpc GetConditionList(ConditionListRequest) returns(ConditionListResponse);
   rpc GetCinema(GetCinemaRequest) returns(GetCinemaResponse);
   rpc GetShowList(GetShowListRequest) returns(GetShowListResponse);
   rpc GetHallSeats(GetHallSeatsRequest) returns(GetHallSeatsResponse);
+  rpc DeductSeats(DeductSeatsRequest) returns(DeductSeatsResponse);
+  rpc DeductSeatsRollBack(DeductSeatsRequest) returns(DeductSeatsResponse);
 }

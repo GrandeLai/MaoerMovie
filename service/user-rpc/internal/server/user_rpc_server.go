@@ -61,3 +61,8 @@ func (s *UserRpcServer) SearchUser(ctx context.Context, in *user.SearchUserReque
 	l := logic.NewSearchUserLogic(ctx, s.svcCtx)
 	return l.SearchUser(in)
 }
+
+func (s *UserRpcServer) GetUserPreview(ctx context.Context, in *user.GetUserInfoRequest) (*user.UserPreview, error) {
+	l := logic.NewGetUserPreviewLogic(ctx, s.svcCtx)
+	return l.GetUserPreview(in)
+}

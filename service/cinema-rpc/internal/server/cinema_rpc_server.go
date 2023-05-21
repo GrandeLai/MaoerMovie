@@ -46,3 +46,13 @@ func (s *CinemaRpcServer) GetHallSeats(ctx context.Context, in *pb.GetHallSeatsR
 	l := logic.NewGetHallSeatsLogic(ctx, s.svcCtx)
 	return l.GetHallSeats(in)
 }
+
+func (s *CinemaRpcServer) DeductSeats(ctx context.Context, in *pb.DeductSeatsRequest) (*pb.DeductSeatsResponse, error) {
+	l := logic.NewDeductSeatsLogic(ctx, s.svcCtx)
+	return l.DeductSeats(in)
+}
+
+func (s *CinemaRpcServer) DeductSeatsRollBack(ctx context.Context, in *pb.DeductSeatsRequest) (*pb.DeductSeatsResponse, error) {
+	l := logic.NewDeductSeatsRollBackLogic(ctx, s.svcCtx)
+	return l.DeductSeatsRollBack(in)
+}

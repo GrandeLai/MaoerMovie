@@ -7,7 +7,10 @@ import (
 	admin "MaoerMovie/service/bff-api/internal/handler/admin"
 	auth "MaoerMovie/service/bff-api/internal/handler/auth"
 	cinema "MaoerMovie/service/bff-api/internal/handler/cinema"
+	comment "MaoerMovie/service/bff-api/internal/handler/comment"
 	film "MaoerMovie/service/bff-api/internal/handler/film"
+	order "MaoerMovie/service/bff-api/internal/handler/order"
+	pay "MaoerMovie/service/bff-api/internal/handler/pay"
 	user "MaoerMovie/service/bff-api/internal/handler/user"
 	"MaoerMovie/service/bff-api/internal/svc"
 
@@ -157,5 +160,87 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 			},
 		},
 		rest.WithPrefix("/cinema"),
+	)
+
+	server.AddRoutes(
+		[]rest.Route{
+			{
+				Method:  http.MethodPost,
+				Path:    "/create",
+				Handler: comment.CreateCommentHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodPost,
+				Path:    "/delete",
+				Handler: comment.DeleteCommentHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodGet,
+				Path:    "/list",
+				Handler: comment.GetCommentListHandler(serverCtx),
+			},
+		},
+		rest.WithJwt(serverCtx.Config.Auth.AccessSecret),
+		rest.WithPrefix("/comment"),
+	)
+
+	server.AddRoutes(
+		[]rest.Route{
+			{
+				Method:  http.MethodPost,
+				Path:    "/create_order",
+				Handler: order.CreateOrderHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodGet,
+				Path:    "/get_detail",
+				Handler: order.GetOrderDetailHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodGet,
+				Path:    "/get_list",
+				Handler: order.GetOrderListHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodGet,
+				Path:    "/get_paid_list",
+				Handler: order.GetPaidListHandler(serverCtx),
+			},
+		},
+		rest.WithJwt(serverCtx.Config.Auth.AccessSecret),
+		rest.WithPrefix("/order"),
+	)
+
+	server.AddRoutes(
+		[]rest.Route{
+			{
+				Method:  http.MethodPost,
+				Path:    "/create_pay",
+				Handler: pay.CreatePayHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodGet,
+				Path:    "/detail",
+				Handler: pay.PayDetailHandler(serverCtx),
+			},
+		},
+		rest.WithJwt(serverCtx.Config.Auth.AccessSecret),
+		rest.WithPrefix("/pay"),
+	)
+
+	server.AddRoutes(
+		[]rest.Route{
+			{
+				Method:  http.MethodPost,
+				Path:    "/call_back",
+				Handler: pay.PayCallbackHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodGet,
+				Path:    "/return",
+				Handler: pay.PayReturnHandler(serverCtx),
+			},
+		},
+		rest.WithPrefix("/pay"),
 	)
 }

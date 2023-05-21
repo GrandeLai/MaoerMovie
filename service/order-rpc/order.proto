@@ -1,0 +1,80 @@
+syntax = "proto3";
+
+package order;
+
+option go_package='./pb';
+
+message CreateOrderRequest{
+   string orderId=1;
+   string cinemaId=2;
+   string filmId=3;
+   string showId=4;
+   string price=5;
+   string seatIds=6;
+   string seatPosition=7;
+   string userId=8;
+   string seatNum=9;
+}
+
+message CreateOrderResponse{
+  string orderId=1;
+}
+
+message GetOrderDetailRequest{
+   string orderId=1;
+}
+
+message GetOrderDetailResponse{
+   OrderDetail orderDetail=1;
+}
+
+message OrderDetail{
+   string orderId=1;
+   string cinemaId=2;
+   string filmId=3;
+   string showId=4;
+   string price=5;
+   string status=6;
+   string seatIds=7;
+   string seatPosition=8;
+}
+
+message GetOrderListRequest{
+   string page=1;
+   string size=2;
+   string userId=3;
+}
+
+message GetOrderListResponse{
+   repeated OrderDetail orderList=1;
+}
+
+message GetPaidOrderListResponse{
+   repeated OrderDetail orderList=1;
+}
+
+message GetSoldSeatsRequest{
+   string showId=1;
+}
+
+message GetSoldSeatsResponse{
+   repeated int64 soldSeats=1;
+}
+
+message SetOrderPaidRequest{
+   string orderId=1;
+}
+
+message SetOrderPaidResponse{
+}
+
+service orderRpc {
+   rpc CreateOrder(CreateOrderRequest) returns(CreateOrderResponse);
+   rpc GetOrderDetail(GetOrderDetailRequest) returns(GetOrderDetailResponse);
+   rpc GetOrderList(GetOrderListRequest) returns(GetOrderListResponse);
+   rpc GetPaidOrderList(GetOrderListRequest) returns(GetPaidOrderListResponse);
+   rpc GetSoldSeats(GetSoldSeatsRequest) returns(GetSoldSeatsResponse);
+   rpc SetOrderPaid(SetOrderPaidRequest) returns(SetOrderPaidResponse);
+   rpc SetOrderPaidRollback(SetOrderPaidRequest) returns(SetOrderPaidResponse);
+   rpc CreateOrderRollback(CreateOrderRequest) returns(CreateOrderRequest);
+}
